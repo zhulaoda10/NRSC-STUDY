@@ -49,13 +49,19 @@
             </otherwise>
         </choose>
     </select>
+    <select id="findAllUserByIdIn" resultType="TUser">
+        SELECT * FROM t_user WHERE id IN
+        <foreach collection="ids" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
 
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_user
     where id = #{id,jdbcType=BIGINT}
   </delete>
-    <insert id="insert" parameterType="com.nrsc.mybatis.pojo.TUser">
+    <insert id="insert" parameterType="com.nrsc.mybatis.pojo.TUser" useGeneratedKeys="true" keyProperty="id">
     insert into t_user (id, username, password, 
       gender, salary, create_time, 
       update_time)
@@ -112,6 +118,12 @@
             </if>
         </trim>
     </insert>
+    <insert id="batchSaveTUser" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_user(username, password, gender, salary) VALUES
+        <foreach collection="collection" item="item" separator=",">
+            (#{item.username}, #{item.password}, #{item.gender}, #{item.salary})
+        </foreach>
+    </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.nrsc.mybatis.pojo.TUser">
         update t_user
         <set>
@@ -146,4 +158,6 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
 </mapper>

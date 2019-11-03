@@ -3,7 +3,9 @@ package com.nrsc.mybatis.repository;
 
 import com.nrsc.mybatis.po.UserPo;
 import com.nrsc.mybatis.pojo.TUser;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface TUserMapper {
@@ -21,6 +23,9 @@ public interface TUserMapper {
 
     List<TUser> findTUserSelective(UserPo userPo);
 
-
     List<TUser> selectByRole(Integer role);
+
+    List<TUser> findAllUserByIdIn(@Param("ids") Collection<Long> ids);
+
+    int batchSaveTUser(Collection<TUser> TUsers);
 }
