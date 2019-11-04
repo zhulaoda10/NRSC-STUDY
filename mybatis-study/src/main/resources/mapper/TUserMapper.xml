@@ -49,11 +49,72 @@
             </otherwise>
         </choose>
     </select>
-    <select id="findAllUserByIdIn" resultType="TUser">
+    <select id="findAllUserByIdIn" resultMap="BaseResultMap">
         SELECT * FROM t_user WHERE id IN
         <foreach collection="ids" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>
+    </select>
+
+    <!--请求参数为Map方式-->
+    <select id="selectByUsernameAndGender" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user u
+        where u.gender =#{gender} and u.username like CONCAT('%', #{username}, '%')
+
+    </select>
+    <!--请求参数为map，且用了@Param注解时 (画蛇添足)-->
+    <select id="selectByUsernameAndGenderMap2" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user u
+        where u.username like CONCAT('%', #{params.username}, '%') and
+        u.gender =#{params.gender}
+
+    </select>
+
+    <!--请求参数为多个参数方式1-->
+    <select id="selectByUsernameAndGenderParam" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user u
+        where u.username like CONCAT('%', #{username}, '%') and
+        u.gender =#{gender}
+    </select>
+    <!--请求参数为多个参数方式2||||和上面的代码一样-->
+    <select id="selectByUsernameAndGenderParam2" resultType="TUser">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user u
+        where u.username like CONCAT('%', #{username}, '%') and
+        u.gender =#{gender}
+    </select>
+    <!--请求参数为po类-->
+    <select id="selectByUsernameAndGenderPojo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user u
+        where u.username like CONCAT('%', #{username}, '%') and
+        u.salary =#{salary}
+    </select>
+    <!--请求参数为po类（画蛇添足版）-->
+    <select id="selectByUsernameAndGenderPojo2" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user u
+        where u.username like CONCAT('%', #{user.username}, '%') and
+        u.salary =#{user.salary}
+    </select>
+    <select id="findByUsername" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user u
+        <where>
+            <if test="username!=null">
+                u.username = #{username}
+            </if>
+        </where>
     </select>
 
 
