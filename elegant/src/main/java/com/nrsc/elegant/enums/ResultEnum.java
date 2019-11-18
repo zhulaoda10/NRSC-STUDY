@@ -11,12 +11,14 @@ import lombok.Getter;
 public enum ResultEnum {
     SUCCESS(0, "成功"),
 
-    FAILURE(-1,"系统异常"),
+    FAILURE(-1, "系统异常"),
+
+    COMPLEX_FAILURE(-2, ""),
+
 
     PARAM_ERROR(300, "参数不正确"),
 
     RESULT_NOT_EXIST(301, "查询结果不存在");
-
 
 
     private Integer code;

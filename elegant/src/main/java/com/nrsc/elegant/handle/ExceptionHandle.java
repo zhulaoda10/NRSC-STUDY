@@ -2,7 +2,8 @@ package com.nrsc.elegant.handle;
 
 
 import com.nrsc.elegant.enums.ResultEnum;
-import com.nrsc.elegant.exception.ElegantException;
+import com.nrsc.elegant.exception.ElegantCheckedException;
+import com.nrsc.elegant.exception.ElegantRuntimeException;
 import com.nrsc.elegant.util.ResultVOUtil;
 import com.nrsc.elegant.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +20,15 @@ import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
+/***
  * @author : Sun Chuan
  * @date : 2019/10/18 22:26
  * Description：全局统一异常处理类
- *   该类的处理逻辑:
- *          （1）对请求参数异常和我们自定义的异常分别做单独处理
- *          （2）对可能出现的未知异常进行单独处理
+ *
+ *
+ *          该类的处理逻辑:
+ *              （1）对请求参数异常和我们自定义的异常分别做单独处理
+ *              （2）对可能出现的未知异常进行单独处理
  */
 @Slf4j
 @ControllerAdvice
@@ -90,14 +93,20 @@ public class ExceptionHandle {
 
         return ResultVOUtil.error(ResultEnum.PARAM_ERROR);
     }
+
     /***
      * 自定义异常
      * @param e
      * @return
      */
-    @ExceptionHandler(value = ElegantException.class)
+    @ResponseStatus(HttpStatus.IM_USED)
+    @ExceptionHandler(value = {ElegantRuntimeException.class, ElegantCheckedException.class})
     @ResponseBody
-    public ResultVO elegantExceptionHandle(ElegantException e) {
+    public ResultVO elegantExceptionHandle(ElegantRuntimeException e) {
+        log.error("发生自定义异常", e);
+        if (e.getComplexMsg() != null) {
+            return ResultVOUtil.error(e.getCode(), e.getComplexMsg());
+        }
         return ResultVOUtil.error(e.getCode(), e.getMessage());
     }
 

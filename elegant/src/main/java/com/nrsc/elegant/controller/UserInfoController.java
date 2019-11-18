@@ -1,7 +1,7 @@
 package com.nrsc.elegant.controller;
 
 import com.nrsc.elegant.enums.ResultEnum;
-import com.nrsc.elegant.exception.ElegantException;
+import com.nrsc.elegant.exception.ElegantRuntimeException;
 import com.nrsc.elegant.pojo.UserInfo;
 import com.nrsc.elegant.util.ResultVOUtil;
 import com.nrsc.elegant.vo.ResultVO;
@@ -12,7 +12,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-/**
+/***
  * @author : Sun Chuan
  * @date : 2019/10/20 9:46
  * Description：
@@ -63,7 +63,7 @@ public class UserInfoController {
     }
 
     /***
-     * ElegantException --- 自定义异常、未知异常和URL---统一处理测试
+     * ElegantRuntimeException --- 自定义异常、未知异常和URL---统一处理测试
      * @param id
      * @return
      */
@@ -71,9 +71,16 @@ public class UserInfoController {
     public ResultVO<UserInfo> getUser(@PathVariable @Max(value = 100, message = "id应小于100") Long id) {
         UserInfo userInfo = new UserInfo();
         //自定义异常
-        if (id < 0) {
-            throw new ElegantException(ResultEnum.PARAM_ERROR);
+        if (id == -1) {
+            throw new ElegantRuntimeException(ResultEnum.PARAM_ERROR);
         }
+
+        //比较复杂的异常
+        else if (id == -2) {
+            throw new ElegantRuntimeException(ResultEnum.COMPLEX_FAILURE.getCode(),
+                    "我是比较{}复杂的异常{}", "=====", "哈哈");
+        }
+
         //未知异常
         else if (id == 0) {
             throw new RuntimeException("xxoo");
