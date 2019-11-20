@@ -10,6 +10,11 @@ import com.nrsc.elegant.vo.ResultVO;
  * Description：将返回数据处理成ResultVO的工具类
  */
 public class ResultVOUtil {
+
+
+    private ResultVOUtil() {
+    }
+
     public static ResultVO success(Object object) {
         ResultVO resultVO = new ResultVO();
         resultVO.setData(object);
