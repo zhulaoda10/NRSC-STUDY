@@ -14,6 +14,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ApplicationContextUtils implements ApplicationContextAware {
+
+    /***
+     * spring启动后会将IOC容器的引用赋值给application
+     * 静态变量不会被JVM回收，
+     * 所以可以通过静态方法getBeanByType 和 getBeanByName随时获取项目中IOC容器内的bean
+     */
     private static ApplicationContext applicationContext;
 
     private ApplicationContextUtils() {

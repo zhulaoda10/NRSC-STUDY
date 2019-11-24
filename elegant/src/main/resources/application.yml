@@ -1,0 +1,8 @@
+server:
+  port: 9100
+
+spring:
+  messages:
+    # springboot环境下可以不指定properties的位置，但此时必须将properties直接放在resources目录下
+    basename: i18n/messages/messages # 最后的一个messages不能少，指的是properties文件的前缀
+    encoding: utf-8
