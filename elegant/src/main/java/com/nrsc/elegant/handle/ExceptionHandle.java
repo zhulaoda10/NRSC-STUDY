@@ -43,7 +43,7 @@ public class ExceptionHandle {
     @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultVO handle(Exception e) {
-        log.error("【系统异常】{}", e);
+        log.error("【系统异常】", e);
         return ResultVOUtil.error(ResultEnum.FAILURE);
     }
 
@@ -57,7 +57,7 @@ public class ExceptionHandle {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResultVO urlParametersExceptionHandle(ConstraintViolationException e) {
-        log.error("【请求参数异常】:{}", e);
+        log.error("【请求参数异常】", e);
         //收集所有错误信息
         List<String> errorMsg = e.getConstraintViolations()
                 .stream().map(s -> s.getMessage()).collect(Collectors.toList());
@@ -75,7 +75,7 @@ public class ExceptionHandle {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResultVO bodyExceptionHandle(Exception e) {
-        log.error("【请求参数异常】:{}", e);
+        log.error("【请求参数异常】", e);
         BindingResult bindingResult = null;
         if (e instanceof MethodArgumentNotValidException) {
             MethodArgumentNotValidException ex = (MethodArgumentNotValidException) e;
@@ -103,13 +103,11 @@ public class ExceptionHandle {
     @ExceptionHandler(value = {ElegantRuntimeException.class, ElegantCheckedException.class})
     @ResponseBody
     public ResultVO elegantExceptionHandle(ElegantRuntimeException e) {
-        log.error("发生自定义异常", e);
+        log.error("【自定义异常】", e);
         if (e.getComplexMsg() != null) {
             return ResultVOUtil.error(e.getCode(), e.getComplexMsg());
         }
         return ResultVOUtil.error(e.getCode(), e.getMessage());
     }
-
-
 }
 
