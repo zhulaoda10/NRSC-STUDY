@@ -18,7 +18,9 @@ public enum ResultEnum {
 
     PARAM_ERROR(300, "参数不正确"),
 
-    RESULT_NOT_EXIST(301, "查询结果不存在");
+    RESULT_NOT_EXIST(301, "查询结果不存在"),
+
+    QUERY_DB_ERROR(302, "查询数据库出现异常,异常信息为:【{}】");
 
 
     private Integer code;

@@ -1,6 +1,8 @@
 package com.nrsc.elegant.pojo;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -11,6 +13,8 @@ import javax.validation.constraints.NotNull;
  * Description：
  */
 @Data
+@NoArgsConstructor
+@ToString
 public class UserInfo {
     private Long id;
 
@@ -18,8 +22,16 @@ public class UserInfo {
     @NotNull(message = "name不能为空")
     private String name;
 
-    @Min(value = 18,message = "age应大于18")
+    @Min(value = 18, message = "age应大于18")
     private Integer age;
 
     private String sex;
+
+    public UserInfo(@NotNull(message = "name不能为空") String name,
+                    @Min(value = 18, message = "age应大于18") Integer age,
+                    String sex) {
+        this.name = name;
+        this.age = age;
+        this.sex = sex;
+    }
 }

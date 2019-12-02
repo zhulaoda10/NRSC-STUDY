@@ -2,7 +2,6 @@ package com.nrsc.elegant.util;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
-import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
@@ -11,7 +10,7 @@ import java.util.Locale;
  * @date : 2019/11/24 0:06
  * Description：
  */
-@Component
+//@Component
 public class NrscMessageSource implements MessageSourceAware {
     @Override
     public void setMessageSource(MessageSource messageSource) {
