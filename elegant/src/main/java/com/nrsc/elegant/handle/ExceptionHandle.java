@@ -2,7 +2,6 @@ package com.nrsc.elegant.handle;
 
 
 import com.nrsc.elegant.enums.ResultEnum;
-import com.nrsc.elegant.exception.ElegantCheckedException;
 import com.nrsc.elegant.exception.ElegantRuntimeException;
 import com.nrsc.elegant.util.ResultVOUtil;
 import com.nrsc.elegant.vo.ResultVO;
@@ -101,7 +100,7 @@ public class ExceptionHandle {
      * @return
      */
     @ResponseStatus(HttpStatus.IM_USED)
-    @ExceptionHandler(value = {ElegantRuntimeException.class, ElegantCheckedException.class})
+    @ExceptionHandler(value = {ElegantRuntimeException.class})
     @ResponseBody
     public ResultVO elegantExceptionHandle(ElegantRuntimeException e) {
         log.warn("【自定义异常】", e);
