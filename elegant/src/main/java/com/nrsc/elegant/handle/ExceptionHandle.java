@@ -95,7 +95,8 @@ public class ExceptionHandle {
     }
 
     /***
-     * 自定义异常
+     * 自定义异常 --- 自定义异常一般不要设置为ERROR级别,因为我们用自定义的异常主要是为了辅助我们处理业务逻辑,
+     *          --- 它们其实并不能被真正当作异常来看待
      * @param e
      * @return
      */
@@ -103,7 +104,7 @@ public class ExceptionHandle {
     @ExceptionHandler(value = {ElegantRuntimeException.class, ElegantCheckedException.class})
     @ResponseBody
     public ResultVO elegantExceptionHandle(ElegantRuntimeException e) {
-        log.error("【自定义异常】", e);
+        log.warn("【自定义异常】", e);
         if (e.getComplexMsg() != null) {
             return ResultVOUtil.error(e.getCode(), e.getComplexMsg());
         }
