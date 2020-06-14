@@ -1,0 +1,7 @@
+server:
+  port: 8099
+nrsc:
+  hello:
+    prefix: hello
+    suffix: nice to meet you!!!
+    match: true
