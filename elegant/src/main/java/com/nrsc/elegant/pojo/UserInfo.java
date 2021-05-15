@@ -25,6 +25,7 @@ public class UserInfo {
     @Min(value = 18, message = "age应大于18")
     private Integer age;
 
+    @Enum(value = Sex.class, message = "请填写正确的性别")
     private String sex;
 
     public UserInfo(@NotNull(message = "name不能为空") String name,
