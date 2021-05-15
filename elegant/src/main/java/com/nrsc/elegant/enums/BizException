@@ -1,0 +1,13 @@
+package com.nrsc.elegant.enums;
+
+public class BizException extends RuntimeException {
+
+    private Integer code;
+
+    private String message;
+
+    public BizException(Integer code,String message) {
+        super(message);
+        this.code=code;
+    }
+}
