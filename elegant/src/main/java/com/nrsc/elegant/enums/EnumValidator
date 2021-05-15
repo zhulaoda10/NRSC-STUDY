@@ -1,0 +1,48 @@
+package com.nrsc.elegant.enums;
+
+import com.google.common.collect.Lists;
+import org.springframework.beans.BeanUtils;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
+
+public class EnumValidator implements ConstraintValidator<Enum, Object> {
+
+    // 存具体枚举的值
+    private final List<Object> values = Lists.newArrayList();
+
+    @Override
+    public void initialize(Enum constraintAnnotation) {
+
+        Class<?> enumClazz = constraintAnnotation.value();
+        Object[] enumConstants = enumClazz.getEnumConstants();
+        if (null == enumConstants) {
+            return;
+        }
+        Method method = BeanUtils.findMethod(enumClazz, constraintAnnotation.method());
+        if (null == method) {
+            //log.warn("枚举对象:[{}]中不存在方法:[{}],请检查.", enumClazz.getName(), constraintAnnotation.method());
+            throw new BizException(1001, "枚举对象中不存在获取值的方法");
+        }
+
+        method.setAccessible(true);
+        try {
+            for (Object enumConstant : enumConstants) {
+                values.add(method.invoke(enumConstant));
+            }
+        } catch (IllegalAccessException | InvocationTargetException e) {
+           // log.warn("获取枚举类:[{}]的枚举对象的值失败.", enumClazz);
+            throw new BizException(1001, "获取枚举值失败");
+        }
+    }
+
+   //  返回true说明验证通过，false说明验证失败
+    @Override
+    public boolean isValid(Object value, ConstraintValidatorContext context) {
+        System.out.println(value);
+        return null == value || values.contains(value);
+    }
+
+}
